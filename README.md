@@ -20,7 +20,7 @@ You can customize the title of the gui along with an option to allow the color `
  **EXAMPLE:** chatcolor.color.dark_blue would give the dark blue chat color
 **NOTE:** the color name must be in lower case
 
-- 'chatcolor.gui' -> the permission to open the chat colors gui
+- `chatcolor.gui` -> the permission to open the chat colors gui
 
 ## INFO
 Updates will be continuously uploaded , so beware :)
