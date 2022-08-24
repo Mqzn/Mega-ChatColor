@@ -22,6 +22,8 @@ You can customize the title of the gui along with an option to allow the color `
 
 - `chatcolor.gui` -> the permission to open the chat colors gui
 
+- `chatcolor.color.*` -> the permission for all colors
+
 ## INFO
 Updates will be continuously uploaded , so beware :)
 
