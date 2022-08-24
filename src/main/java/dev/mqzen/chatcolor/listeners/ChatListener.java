@@ -1,24 +1,20 @@
-package dev.mqzen.chatcolor;
+package dev.mqzen.chatcolor.listeners;
 
+import dev.mqzen.chatcolor.text.MessageColorApplier;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-public class ChatListener implements Listener {
-
-	private final MegaChatColor plugin;
-
-	public ChatListener(MegaChatColor plugin) {
-		this.plugin = plugin;
-	}
+public final class ChatListener implements Listener {
 
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent e) {
 
+		Player player = e.getPlayer();
 		String msg = e.getMessage();
 
-		e.setMessage();
-
+		e.setMessage(MessageColorApplier.result(player.getUniqueId(), msg));
 	}
 
 }

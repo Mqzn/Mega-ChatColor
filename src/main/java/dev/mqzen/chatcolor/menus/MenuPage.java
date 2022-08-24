@@ -1,114 +1,114 @@
-package dev.mqzn.lib.menus;
+package dev.mqzen.chatcolor.menus;
 
 import com.google.common.base.Objects;
-import dev.mqzn.lib.utils.ItemBuilder;
-import dev.mqzn.lib.utils.Translator;
+import dev.mqzen.chatcolor.utils.ItemBuilder;
+import dev.mqzen.chatcolor.utils.Translator;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public final class MenuPage<S extends MenuSerializable> extends Menu {
 
-    private final int index, min, max;
-    private final PaginatedMenu<S> paginatedMenu;
+	private final static ItemStack NEXT_PAGE_BUTTON, PREVIOUS_PAGE_BUTTON;
 
-    final int pageRows, NEXT_PAGE_SLOT, PREVIOUS_PAGE_SLOT;
-    private final static ItemStack NEXT_PAGE_BUTTON, PREVIOUS_PAGE_BUTTON;
+	static {
 
-     static {
+		NEXT_PAGE_BUTTON = new ItemBuilder(Material.ARROW)
+						.setDisplay("&aNext Page >>").build();
 
-        NEXT_PAGE_BUTTON = new ItemBuilder(Material.ARROW)
-                .setDisplay("&aNext Page >>").build();
+		PREVIOUS_PAGE_BUTTON = new ItemBuilder(Material.ARROW)
+						.setDisplay("&e<< Previous Page").build();
+	}
 
-        PREVIOUS_PAGE_BUTTON = new ItemBuilder(Material.ARROW)
-                .setDisplay("&e<< Previous Page").build();
-    }
+	final int pageRows, NEXT_PAGE_SLOT, PREVIOUS_PAGE_SLOT;
+	private final int index, min, max;
+	private final PaginatedMenu<S> paginatedMenu;
 
-    public MenuPage(int index, PaginatedMenu<S> paginatedMenu) {
-        this.paginatedMenu = paginatedMenu;
-        this.index = index;
+	public MenuPage(int index, PaginatedMenu<S> paginatedMenu) {
+		this.paginatedMenu = paginatedMenu;
+		this.index = index;
 
-        this.pageRows = paginatedMenu.getPageRows();
-        NEXT_PAGE_SLOT = paginatedMenu.getNextPageSlot();
-        PREVIOUS_PAGE_SLOT = paginatedMenu.getPreviousPageSlot();
+		this.pageRows = paginatedMenu.getPageRows();
+		NEXT_PAGE_SLOT = paginatedMenu.getNextPageSlot();
+		PREVIOUS_PAGE_SLOT = paginatedMenu.getPreviousPageSlot();
 
-         // as there will be extra buttons
-        this.max = index*paginatedMenu.getPageCapacity();
-        this.min = max-paginatedMenu.getPageCapacity();
+		// as there will be extra buttons
+		this.max = index * paginatedMenu.getPageCapacity();
+		this.min = max - paginatedMenu.getPageCapacity();
 
-    }
+	}
 
-    public int getIndex() {
-        return index;
-    }
+	public int getIndex() {
+		return index;
+	}
 
-    int getMaxBound() {
-        return max;
-    }
+	int getMaxBound() {
+		return max;
+	}
 
-    int getMinBound() {
-        return min;
-    }
-
-
-    @Override
-    protected int getRows() {
-        return pageRows;
-    }
+	int getMinBound() {
+		return min;
+	}
 
 
-    @Override
-    protected void setItems(Player player) {
+	@Override
+	protected int getRows() {
+		return pageRows;
+	}
 
-        this.setItem(NEXT_PAGE_SLOT, NEXT_PAGE_BUTTON,
-                (e) -> paginatedMenu.openPage(player, index+1));
 
-        this.setItem(PREVIOUS_PAGE_SLOT, PREVIOUS_PAGE_BUTTON,
-                (e)-> {
-                    paginatedMenu.openPage(player, index-1);
-                });
+	@Override
+	protected void setItems(Player player) {
 
-        int limit = Math.min(max, paginatedMenu.getItems().size());
-        for (int slot = min; slot < limit; slot++) {
-            MenuSerializable icon = paginatedMenu.getItems().get(slot);
-            this.addItem(icon.serialize(player), icon::onCLick);
-        }
+		this.setItem(NEXT_PAGE_SLOT, NEXT_PAGE_BUTTON,
+						(e) -> paginatedMenu.openPage(player, index + 1));
 
-    }
+		this.setItem(PREVIOUS_PAGE_SLOT, PREVIOUS_PAGE_BUTTON,
+						(e) -> {
+							paginatedMenu.openPage(player, index - 1);
+						});
 
-    @Override
-    public String getUniqueName() {
-        return "Page #" + index + " In " + this.paginatedMenu.getUniqueName();
-    }
+		int limit = Math.min(max, paginatedMenu.getItems().size());
+		for (int slot = min; slot < limit; slot++) {
+			MenuSerializable icon = paginatedMenu.getItems().get(slot);
+			this.addItem(icon.serialize(player), icon::onCLick);
+		}
 
-    @Override
-    public String getTitle() {
-        return Translator.color(this.paginatedMenu.getTitle() + " &7#" + index);
-    }
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof MenuPage)) return false;
-        if (!super.equals(o)) return false;
-        MenuPage<?> page = (MenuPage<?>) o;
-        return getIndex() == page.getIndex();
-    }
+	@Override
+	public String getUniqueName() {
+		return "Page #" + index + " In " + this.paginatedMenu.getUniqueName();
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(super.hashCode(), getIndex());
-    }
+	@Override
+	public String getTitle() {
+		return Translator.color(this.paginatedMenu.getTitle() + " &7#" + index);
+	}
 
-    @Override
-    public String toString() {
-        return "MenuPage{" +
-                "index=" + index +
-                ", min=" + min +
-                ", max=" + max +
-                ", paginatedMenu=" + paginatedMenu.getUniqueName() +
-                '}';
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof MenuPage)) return false;
+		if (!super.equals(o)) return false;
+		MenuPage<?> page = (MenuPage<?>) o;
+		return getIndex() == page.getIndex();
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(super.hashCode(), getIndex());
+	}
+
+	@Override
+	public String toString() {
+		return "MenuPage{" +
+						"index=" + index +
+						", min=" + min +
+						", max=" + max +
+						", paginatedMenu=" + paginatedMenu.getUniqueName() +
+						'}';
+	}
 
 
 }

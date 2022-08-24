@@ -1,0 +1,10 @@
+name: MegaChatColor
+version: 1.0.0
+description: MegaChatColor
+author: Mqzen
+main: dev.mqzen.chatcolor.MegaChatColor
+commands:
+  chatcolor:
+    description: "Open the chat color menu"
+    aliases:
+      - "cc"
